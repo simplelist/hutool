@@ -16,6 +16,11 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import org.junit.Test;
+
+import com.xiaoleilu.hutool.BoundedPriorityQueue;
+import com.xiaoleilu.hutool.PageUtil;
+
 /**
  * 集合相关工具类，包括数组
  * 
@@ -57,6 +62,10 @@ public class CollectionUtil {
 		StringBuilder sb = new StringBuilder();
 		boolean isFirst = true;
 		for (T item : array) {
+			/**
+			 * 先拼接分隔符,再拼接值
+			 * 这里很巧妙用了一个boolean来判断是否是第一个,从而决定是否需要在拼接值之前,添加分隔符
+			 */
 			if (isFirst) {
 				isFirst = false;
 			} else {
@@ -151,11 +160,20 @@ public class CollectionUtil {
 		List<T> currentAlaDatas = new ArrayList<T>();
 		int size = surplusAlaDatas.size();
 		// 切割
+		/**
+		 * 如果原有长度大于切割长度,则按需要的长度切割,
+		 * 否则按照栈原有长度返回
+		 * 			
+		 */
 		if (size > partSize) {
 			for (int i = 0; i < partSize; i++) {
 				currentAlaDatas.add(surplusAlaDatas.pop());
 			}
 		} else {
+			/**
+			 * 这里直接将栈转为list返回
+			currentAlaDatas=new ArrayList<T>(surplusAlaDatas);
+			 */
 			for (int i = 0; i < size; i++) {
 				currentAlaDatas.add(surplusAlaDatas.pop());
 			}
@@ -326,6 +344,9 @@ public class CollectionUtil {
 	 * @return 数字列表
 	 */
 	public static int[] range(int excludedEnd) {
+		/**
+		 * 这个是根据python中的range学的
+		 */
 		return range(0, excludedEnd, 1);
 	}
 	
